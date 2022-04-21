@@ -14,6 +14,11 @@ export default function NavBar() {
         <Link href="/about">
           <a className={router.pathname === "/about" ? "active" : ""}>About</a>
         </Link>
+        <Link href="/goodprice">
+          <a className={router.pathname === "/goodprice" ? "active" : ""}>
+            착한가격업소
+          </a>
+        </Link>
       </div>
       <style jsx>{`
         nav {
