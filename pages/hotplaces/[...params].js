@@ -25,7 +25,9 @@ export default function Detail({ data, params }) {
       <span className="openingHours">
         영업 시간 : {detail.USAGE_DAY_WEEK_AND_TIME}
       </span>
-      <span className="contactNumber">전화 번호 : {detail.CNTCT_TEL}</span>
+      <span className="contactNumber" style={{ marginBottom: "100px" }}>
+        전화 번호 : {detail.CNTCT_TEL}
+      </span>
       <style jsx>{`
         span {
           display: block;
@@ -34,11 +36,12 @@ export default function Detail({ data, params }) {
           font-weight: bold;
         }
         .description {
-          margin: 10px 0;
+          margin: 15px 0;
         }
         .address,
         .openingHours,
         .contactNumber {
+          margin-bottom: 5px;
           color: grey;
           font-size: 14px;
         }
