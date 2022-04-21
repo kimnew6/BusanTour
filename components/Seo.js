@@ -1,9 +1,9 @@
 import Head from "next/head";
 
-export default function Seo() {
+export default function Seo({ title }) {
   return (
     <Head>
-      <title>Busan Tour</title>
+      <title>{title} | Busan Tour</title>
     </Head>
   );
 }
