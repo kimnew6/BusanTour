@@ -2,11 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Seo from "../components/Seo";
+import { useState } from "react";
 
 const API_KEY = process.env.API_KEY;
 
 export default function Home({ data }) {
   const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+
   console.log(data);
   const onClick = (id, title) => {
     router.push(`/hotplaces/${title}/${id}`);
@@ -16,6 +19,11 @@ export default function Home({ data }) {
     <div>
       <div className="search" style={{ margin: "15px 0", textAlign: "center" }}>
         <input
+          type="text"
+          placeholder="search"
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
           style={{
             width: "200px",
             height: "30px",
@@ -26,29 +34,47 @@ export default function Home({ data }) {
       </div>
       <div className="container">
         <Seo title="Home" />
-        {data.getFoodKr.item?.map((hotplace) => (
-          <div
-            onClick={() => onClick(hotplace.UC_SEQ, hotplace.MAIN_TITLE)}
-            className="hotplace"
-            key={hotplace.UC_SEQ}
-          >
-            <div className="thumbnail">
-              <Image
-                alt="thumbnail"
-                src={hotplace.MAIN_IMG_THUMB}
-                width={300}
-                height={300}
-                style={{ borderRadius: "10px" }}
-                priority
-              />
+        {data.getFoodKr.item
+          .filter((hotplace) => {
+            if (searchTerm == "") {
+              return hotplace;
+            } else if (
+              hotplace.GUGUN_NM.toLowerCase().includes(
+                searchTerm.toLowerCase()
+              ) ||
+              hotplace.MAIN_TITLE.toLowerCase().includes(
+                searchTerm.toLowerCase()
+              ) ||
+              hotplace.RPRSNTV_MENU.toLowerCase().includes(
+                searchTerm.toLowerCase()
+              )
+            ) {
+              return hotplace;
+            }
+          })
+          .map((hotplace) => (
+            <div
+              onClick={() => onClick(hotplace.UC_SEQ, hotplace.MAIN_TITLE)}
+              className="hotplace"
+              key={hotplace.UC_SEQ}
+            >
+              <div className="thumbnail">
+                <Image
+                  alt="thumbnail"
+                  src={hotplace.MAIN_IMG_THUMB}
+                  width={300}
+                  height={300}
+                  style={{ borderRadius: "10px" }}
+                  priority
+                />
+              </div>
+              <div className="title">
+                <h4>{hotplace.MAIN_TITLE}</h4>
+                <h6>{hotplace.GUGUN_NM}</h6>
+              </div>
+              <h5>{hotplace.RPRSNTV_MENU}</h5>
             </div>
-            <div className="title">
-              <h4>{hotplace.MAIN_TITLE}</h4>
-              <h6>{hotplace.GUGUN_NM}</h6>
-            </div>
-            <h5>{hotplace.RPRSNTV_MENU}</h5>
-          </div>
-        ))}
+          ))}
         <style jsx>{`
           .container {
             display: grid;
@@ -98,7 +124,7 @@ export default function Home({ data }) {
 
 export async function getServerSideProps() {
   const res = await fetch(
-    `http://apis.data.go.kr/6260000/FoodService/getFoodKr?serviceKey=${API_KEY}&resultType=json&numOfRows=40&pageNo=1`
+    `http://apis.data.go.kr/6260000/FoodService/getFoodKr?serviceKey=${API_KEY}&resultType=json&numOfRows=133`
   );
   const data = await res.json();
 
