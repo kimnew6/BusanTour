@@ -7,6 +7,8 @@ export default function Detail({ data, params }) {
   console.log(data);
   const detail = data.getGoodPriceStore.item[0];
   const [title, id] = params || [];
+
+  const extractSpanPattern = /<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi;
   return (
     <div>
       <Seo title={title} />
@@ -29,7 +31,7 @@ export default function Detail({ data, params }) {
       )}
       <span className="representativeMenu">{detail.cn}</span>
       <span className="description">
-        {detail.intrcn.length > 11 ? detail.intrcn : ""}
+        {detail.intrcn.replace(extractSpanPattern, "").replace(/&nbsp;/gi, "")}
       </span>
       <span className="address">주소 : {detail.adres}</span>
       <span className="openingHours">영업 시간 : {detail.bsnTime}</span>

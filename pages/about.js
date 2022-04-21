@@ -2,7 +2,7 @@ import Seo from "../components/Seo";
 import Image from "next/image";
 export default function about() {
   return (
-    <div>
+    <div style={{ padding: "50px 0" }}>
       <Seo title="about" />
       <h1>About Busan</h1>
       <Image
