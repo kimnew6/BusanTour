@@ -95,5 +95,6 @@ export async function getServerSideProps({ params: { params } }) {
   const data = await res.json();
   return {
     props: { data, params },
+    fallback: false,
   };
 }
