@@ -34,8 +34,8 @@ export default function Home({ data }) {
       </div>
       <div className="container">
         <Seo title="착한가격업소" />
-        {data.getGoodPriceStore.item
-          .filter((hotplace) => {
+        {data?.getGoodPriceStore?.item
+          ?.filter((hotplace) => {
             if (searchTerm == "") {
               return hotplace;
             } else if (
